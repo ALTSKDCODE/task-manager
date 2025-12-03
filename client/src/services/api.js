@@ -2,7 +2,7 @@ import axios from 'axios';
 
 //Create an Axois instance
 const API = axios.create({
-  baseURL: 'https://task-manager-api-9lz1.onrender.com',
+  baseURL: 'https://task-manager-api-9lz1.onrender.com/api',
 });
 
 //Interceptor: Adds the token to every request automatically
