@@ -128,8 +128,6 @@ This project was built with production scalability in mind. Here is how I would 
 
 ---
 
----
-
 ## 👤 Author
 
 **Sudeep Kumar Dalei**
