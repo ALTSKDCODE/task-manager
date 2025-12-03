@@ -77,12 +77,64 @@ npm run dev
 
 ---
 
-## API Documentation
-Method,Endpoint,Description,Access
-POST,/api/auth/register,Register a new user,Public
-POST,/api/auth/login,Login user & get Token,Public
-GET,/api/tasks,Get all tasks for logged-in user,Private
-POST,/api/tasks,Create a new task,Private
-PUT,/api/tasks/:id,Update task details or toggle status,Private
-DELETE,/api/tasks/:id,Delete a task,Private
-```
+## 📚 API Documentation
+
+| Method | Endpoint | Description | Access |
+| :--- | :--- | :--- | :--- |
+| **POST** | `/api/auth/register` | Register a new user | Public |
+| **POST** | `/api/auth/login` | Login user & get Token | Public |
+| **GET** | `/api/tasks` | Get all tasks for logged-in user | 🔒 **Private** |
+| **POST** | `/api/tasks` | Create a new task | 🔒 **Private** |
+| **PUT** | `/api/tasks/:id` | Update task details or toggle status | 🔒 **Private** |
+| **DELETE** | `/api/tasks/:id` | Delete a task | 🔒 **Private** |
+
+---
+
+## 📈 Scalability Strategy
+
+This project was built with production scalability in mind. Here is how I would scale it for a larger user base:
+
+### 1. Microservices Architecture
+* **Decoupling:** Currently, the app is a Monolith. To scale, I would decouple the **Authentication** logic and **Task Management** logic into separate microservices (e.g., `auth-service` and `task-service`).
+* **Fault Isolation:** This prevents a failure in one module (like a task processing error) from crashing the entire application or blocking logins.
+
+### 2. Database Optimization
+* **Indexing:** Implement indexing on the `user_id` field in MongoDB. This ensures task retrieval remains fast (**O(1)** or **O(log n)**) even as the dataset grows to millions of records.
+* **Caching:** Use **Redis** to cache the response of `GET /api/tasks`. Since task lists are read frequently but updated less often, caching would reduce database load by ~80%.
+
+### 3. Frontend Performance
+* **Code Splitting:** Implement `React.lazy()` to load the Dashboard component only after login, significantly reducing the initial JavaScript bundle size.
+* **CDN:** Serve static assets (images, CSS, JS) via a CDN like **Cloudflare** or **AWS CloudFront** to enable edge caching and faster load times for global users.
+
+---
+
+## 📂 Project Structure
+
+```text
+/root
+  ├── /client (Frontend)
+  │     ├── /src
+  │     │    ├── /components  (Reusable UI: Navbar, TaskCard, TaskForm)
+  │     │    ├── /context     (Auth State: Login/Register/Logout)
+  │     │    ├── /pages       (Dashboard, Login, Register)
+  │     │    └── /services    (Axios Config & Interceptors)
+  │
+  └── /server (Backend)
+        ├── /config           (MongoDB Connection)
+        ├── /controllers      (Business Logic Layer)
+        ├── /middleware       (JWT Auth & Error Handling)
+        ├── /models           (Mongoose Schemas)
+        └── /routes           (API Endpoints)
+
+---
+
+---
+
+## 👤 Author
+
+**Sudeep Kumar Dalei**
+* **Role:** Full Stack Developer
+* **GitHub:** [ALTSKDCODE](https://github.com/ALTSKDCODE)
+* **Email:** sudeepdalei38@gmail.com
+
+---
