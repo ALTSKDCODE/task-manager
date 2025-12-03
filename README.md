@@ -125,6 +125,7 @@ This project was built with production scalability in mind. Here is how I would 
         ├── /middleware       (JWT Auth & Error Handling)
         ├── /models           (Mongoose Schemas)
         └── /routes           (API Endpoints)
+```
 
 ---
 
