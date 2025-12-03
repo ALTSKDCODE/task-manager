@@ -49,10 +49,12 @@ Follow these steps to run the project locally.
 git clone [https://github.com/ALTSKDCODE/task-manager.git](https://github.com/ALTSKDCODE/task-manager.git)
 cd task-manager
 
+---
 
-2. Backend SetupBashcd server
+## 2. Backend Setup
+```bash
 npm install
-
+```
 # Create a .env file in the server folder
 echo "PORT=5000" > .env
 echo "MONGO_URI=your_mongodb_connection_string" >> .env
