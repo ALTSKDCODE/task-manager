@@ -2,16 +2,25 @@ import { useForm } from 'react-hook-form';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import { useEffect } from 'react';
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
-  const { login } = useAuth();
+  const { login, user } = useAuth(); // Get 'user' from context
   const navigate = useNavigate();
+
+  // 1. AUTO-REDIRECT: If user is already logged in, send them to dashboard
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
 
   const onSubmit = async (data) => {
     try {
       await login(data.email, data.password);
       toast.success('Login Successful!');
+      // 2. MANUAL REDIRECT: Send to dashboard immediately after success
       navigate('/dashboard');
     } catch (error) {
       toast.error(error.response?.data?.message || 'Login failed');
@@ -26,9 +35,9 @@ const Login = () => {
           <div>
             <label className="block text-sm font-medium">Email</label>
             <input
-              type="email"
               {...register('email', { required: true })}
               className="w-full p-2 mt-1 border rounded"
+              type="email"
             />
           </div>
           <div>
