@@ -6,10 +6,10 @@ import { useEffect } from 'react';
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
-  const { login, user } = useAuth(); // Get 'user' from context
+  const { login, user } = useAuth();
   const navigate = useNavigate();
 
-  // 1. AUTO-REDIRECT: If user is already logged in, send them to dashboard
+  // 1. SINGLE SOURCE OF TRUTH: If user is logged in, go to dashboard.
   useEffect(() => {
     if (user) {
       navigate('/dashboard');
@@ -20,8 +20,7 @@ const Login = () => {
     try {
       await login(data.email, data.password);
       toast.success('Login Successful!');
-      // 2. MANUAL REDIRECT: Send to dashboard immediately after success
-      navigate('/dashboard');
+      // REMOVED navigate() here to prevent the infinite loop/race condition
     } catch (error) {
       toast.error(error.response?.data?.message || 'Login failed');
     }
@@ -34,32 +33,26 @@ const Login = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <label className="block text-sm font-medium">Email</label>
-            <input
-              {...register('email', { required: true })}
-              className="w-full p-2 mt-1 border rounded"
-              type="email"
+            <input 
+              {...register('email', { required: true })} 
+              className="w-full p-2 mt-1 border rounded" 
+              type="email" 
             />
           </div>
           <div>
             <label className="block text-sm font-medium">Password</label>
-            <input
-              {...register('password', { required: true })}
-              className="w-full p-2 mt-1 border rounded"
-              type="password"
+            <input 
+              {...register('password', { required: true })} 
+              className="w-full p-2 mt-1 border rounded" 
+              type="password" 
             />
           </div>
-          <button
-            type="submit"
-            className="w-full p-2 text-white bg-blue-600 rounded hover:bg-blue-700"
-          >
+          <button type="submit" className="w-full p-2 text-white bg-blue-600 rounded hover:bg-blue-700">
             Sign In
           </button>
         </form>
         <p className="text-center">
-          Don't have an account?{' '}
-          <Link to="/register" className="text-blue-500">
-            Register
-          </Link>
+          Don't have an account? <Link to="/register" className="text-blue-500">Register</Link>
         </p>
       </div>
     </div>
