@@ -48,13 +48,12 @@ Follow these steps to run the project locally.
 ```bash
 git clone [https://github.com/ALTSKDCODE/task-manager.git](https://github.com/ALTSKDCODE/task-manager.git)
 cd task-manager
-
----
-
-## 2. Backend Setup
-```bash
-npm install
 ```
+### 2. Backend Setup
+```bash
+cd server
+npm install
+
 # Create a .env file in the server folder
 echo "PORT=5000" > .env
 echo "MONGO_URI=your_mongodb_connection_string" >> .env
@@ -63,23 +62,27 @@ echo "NODE_ENV=development" >> .env
 
 # Start the server
 npm run dev
-3. Frontend SetupBash# Open a new terminal
+```
+
+### 3. Frontend Setup
+```bash
+# Open a new terminal
 cd client
 npm install
 
 # Start React
 npm run dev
-Access the app at http://localhost:5173📚 API DocumentationMethodEndpointDescriptionAccessPOST/api/auth/registerRegister a new userPublicPOST/api/auth/loginLogin user & get TokenPublicGET/api/tasksGet all tasks for logged-in userPrivatePOST/api/tasksCreate a new taskPrivatePUT/api/tasks/:idUpdate task details or toggle statusPrivateDELETE/api/tasks/:idDelete a taskPrivate📈 Scalability StrategyThis project was built with production scalability in mind. Here is how I would scale it for a larger user base:Microservices Architecture:Currently, the app is a Monolith. To scale, I would decouple the Authentication logic and Task Management logic into separate microservices (e.g., auth-service and task-service). This prevents a failure in one module from crashing the entire app.Database Optimization:Indexing: Implement indexing on the user_id field in MongoDB to ensure task retrieval remains fast (O(1) or O(log n)) as the dataset grows to millions of records.Caching: Use Redis to cache the response of GET /api/tasks. Since task lists are read frequently but updated less often, caching would reduce database load by ~80%.Frontend Performance:Code Splitting: Implement React.lazy() to load the Dashboard component only after login, reducing the initial bundle size.CDN: Serve static assets via a CDN (Cloudflare/AWS CloudFront) for edge caching.📂 Project StructurePlaintext/root
-  ├── /client (Frontend)
-  │     ├── /src
-  │     │    ├── /components  (Reusable UI: Navbar, TaskCard, TaskForm)
-  │     │    ├── /context     (Auth State)
-  │     │    ├── /pages       (Dashboard, Login, Register)
-  │     │    └── /services    (Axios Config)
-  │
-  └── /server (Backend)
-        ├── /config           (DB Connection)
-        ├── /controllers      (Logic Layer)
-        ├── /middleware       (Auth & Error Handling)
-        ├── /models           (Mongoose Schemas)
-        └── /routes           (API Endpoints)
+```
+### Access the app at http://localhost:5173
+
+---
+
+## API Documentation
+Method,Endpoint,Description,Access
+POST,/api/auth/register,Register a new user,Public
+POST,/api/auth/login,Login user & get Token,Public
+GET,/api/tasks,Get all tasks for logged-in user,Private
+POST,/api/tasks,Create a new task,Private
+PUT,/api/tasks/:id,Update task details or toggle status,Private
+DELETE,/api/tasks/:id,Delete a task,Private
+```
